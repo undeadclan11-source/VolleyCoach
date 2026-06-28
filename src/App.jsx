@@ -4,27 +4,28 @@ import { useState, useEffect, useCallback } from 'react'
 const generateId = () => Math.random().toString(36).substr(2, 9)
 
 const getRatingColor = (rating) => {
-  if (rating >= 4) return '#22C55E'
-  if (rating >= 3) return '#F97316'
-  return '#EF4444'
+  if (rating >= 4) return 'var(--vc-green)'
+  if (rating >= 3) return 'var(--vc-orange)'
+  return 'var(--vc-red)'
 }
 
 // ==================== STYLES ====================
 const styles = {
-  fontFamily: '-apple-system, "SF Pro Text", "Segoe UI", sans-serif',
+  fontFamily: 'var(--vc-font-body)',
+  fontFamilyDisplay: 'var(--vc-font-display)',
   colors: {
-    background: '#080D17',
-    surface: '#111827',
-    card: '#1A2235',
-    border: '#243048',
-    orange: '#F97316',
-    green: '#22C55E',
-    red: '#EF4444',
-    blue: '#3B82F6',
-    yellow: '#FBBF24',
-    text: '#F1F5F9',
-    muted: '#64748B',
-    court: '#0D1A30',
+    background: 'var(--vc-bg)',
+    surface: 'var(--vc-surface)',
+    card: 'var(--vc-card)',
+    border: 'var(--vc-border)',
+    orange: 'var(--vc-orange)',
+    green: 'var(--vc-green)',
+    red: 'var(--vc-red)',
+    blue: 'var(--vc-blue)',
+    yellow: 'var(--vc-yellow)',
+    text: 'var(--vc-text)',
+    muted: 'var(--vc-muted)',
+    court: 'var(--vc-court)',
   },
 }
 
@@ -411,7 +412,7 @@ export default function App() {
           alignItems: 'center',
         }}
       >
-        <div style={{ fontSize: '20px', fontWeight: '700', color: styles.colors.orange }}>🏐 VolleyCoach</div>
+        <div style={{ fontSize: '20px', fontWeight: '700', color: styles.colors.orange, fontFamily: styles.fontFamilyDisplay, letterSpacing: '-0.02em' }}>🏐 VolleyCoach</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {activeTab === 'ingame' ? (
             <div
@@ -551,13 +552,15 @@ export default function App() {
         }}
       >
         {[
-          { id: 'roster', icon: '👥', label: 'Roster' },
-          { id: 'gameday', icon: '📋', label: 'Game Day' },
-          { id: 'ingame', icon: '🏐', label: 'In-Game' },
+          { id: 'roster', icon: '👥', label: 'Roster', ariaLabel: 'Roster tab' },
+          { id: 'gameday', icon: '📋', label: 'Game Day', ariaLabel: 'Game Day tab' },
+          { id: 'ingame', icon: '🏐', label: 'In-Game', ariaLabel: 'In-Game tab' },
         ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
+            aria-label={tab.ariaLabel}
+            aria-current={activeTab === tab.id ? 'page' : undefined}
             style={{
               flex: 1,
               padding: '12px 8px',
@@ -623,7 +626,7 @@ function RosterTab({ players, onAddPlayer, onEditPlayer, onResetRecord }) {
 
   return (
     <div style={{ padding: '16px' }}>
-      <h2 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '16px' }}>
+      <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '20px', fontFamily: styles.fontFamilyDisplay, letterSpacing: '-0.02em' }}>
         Season Roster ({players.length})
       </h2>
 
@@ -640,7 +643,7 @@ function RosterTab({ players, onAddPlayer, onEditPlayer, onResetRecord }) {
           <p style={{ fontSize: '14px' }}>Tap + to add your first player</p>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {sortedPlayers.map((player) => (
             <button
               key={player.id}
@@ -734,6 +737,8 @@ function RosterTab({ players, onAddPlayer, onEditPlayer, onResetRecord }) {
       {/* FAB */}
       <button
         onClick={onAddPlayer}
+        aria-label="Add player"
+        className="fab"
         style={{
           position: 'fixed',
           bottom: '88px',
@@ -1622,6 +1627,8 @@ function InGameTab({
       {/* Sub Alert */}
       {shouldShowSubAlert && (
         <div
+          className="sub-alert"
+          role="alert"
           style={{
             backgroundColor: 'rgba(251, 191, 36, 0.15)',
             border: `1px solid ${styles.colors.yellow}`,
@@ -1846,10 +1853,11 @@ function InGameTab({
         <h4 style={{ fontSize: '13px', fontWeight: '600', marginBottom: '10px' }}>Manual / Emergency Sub</h4>
         <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
           <div style={{ flex: 1 }}>
-            <label style={{ fontSize: '11px', color: styles.colors.muted, display: 'block', marginBottom: '4px' }}>
+            <label htmlFor="emergency-sub-out" style={{ fontSize: '11px', color: styles.colors.muted, display: 'block', marginBottom: '4px' }}>
               Sub OUT
             </label>
             <select
+              id="emergency-sub-out"
               value={emergencySubOut || ''}
               onChange={(e) => onSetEmergencySubOut(e.target.value || null)}
               style={{
@@ -1876,10 +1884,11 @@ function InGameTab({
             </select>
           </div>
           <div style={{ flex: 1 }}>
-            <label style={{ fontSize: '11px', color: styles.colors.muted, display: 'block', marginBottom: '4px' }}>
+            <label htmlFor="emergency-sub-in" style={{ fontSize: '11px', color: styles.colors.muted, display: 'block', marginBottom: '4px' }}>
               Sub IN
             </label>
             <select
+              id="emergency-sub-in"
               value={emergencySubIn || ''}
               onChange={(e) => onSetEmergencySubIn(e.target.value || null)}
               style={{
@@ -1971,9 +1980,11 @@ function ScoreColumn({ team, score, onIncrement, onDecrement, color }) {
         style={{
           fontSize: '76px',
           fontWeight: '700',
+          fontFamily: styles.fontFamilyDisplay,
           fontVariantNumeric: 'tabular-nums',
           lineHeight: 1,
           color: styles.colors.text,
+          letterSpacing: '-0.03em',
         }}
       >
         {score}
@@ -2046,17 +2057,17 @@ function CourtDiagram({ rotation, getPlayerById, onSlotClick, interactive, mode,
         style={{
           flex: 1,
           aspectRatio: '1',
-          maxWidth: '100px',
           backgroundColor,
           border: `${borderWidth} solid ${borderColor}`,
-          borderRadius: '8px',
+          borderRadius: '10px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: interactive ? 'pointer' : 'default',
-          padding: '8px',
+          padding: '10px',
           position: 'relative',
+          minWidth: 0,
         }}
       >
         <span style={{ fontSize: '10px', color: styles.colors.muted, position: 'absolute', top: '4px', left: '6px' }}>
@@ -2109,7 +2120,7 @@ function CourtDiagram({ rotation, getPlayerById, onSlotClick, interactive, mode,
       style={{
         backgroundColor: styles.colors.court,
         borderRadius: '12px',
-        padding: '16px',
+        padding: '20px',
         border: `2px solid ${styles.colors.border}`,
       }}
     >
@@ -2128,10 +2139,10 @@ function CourtDiagram({ rotation, getPlayerById, onSlotClick, interactive, mode,
       </div>
 
       {/* Front row */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>{frontRow.map(renderSlot)}</div>
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>{frontRow.map(renderSlot)}</div>
 
       {/* Back row */}
-      <div style={{ display: 'flex', gap: '8px' }}>{backRow.map(renderSlot)}</div>
+      <div style={{ display: 'flex', gap: '10px' }}>{backRow.map(renderSlot)}</div>
     </div>
   )
 }
@@ -2178,6 +2189,10 @@ function PlayerModal({ player, onSave, onDelete, onClose, deleteConfirmId }) {
 
   return (
     <div
+      className="modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-label={player ? 'Edit player' : 'Add player'}
       style={{
         position: 'fixed',
         inset: 0,
@@ -2190,6 +2205,7 @@ function PlayerModal({ player, onSave, onDelete, onClose, deleteConfirmId }) {
     >
       <div
         id="player-modal-sheet"
+        className="modal-sheet"
         style={{
           backgroundColor: styles.colors.surface,
           borderRadius: '20px 20px 0 0',
@@ -2239,8 +2255,9 @@ function PlayerModal({ player, onSave, onDelete, onClose, deleteConfirmId }) {
         <div style={{ padding: '16px' }}>
           {/* Name */}
           <div style={{ marginBottom: '16px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}>Name</label>
+            <label htmlFor="player-name" style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}>Name</label>
             <input
+              id="player-name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -2264,10 +2281,11 @@ function PlayerModal({ player, onSave, onDelete, onClose, deleteConfirmId }) {
 
           {/* Jersey Number */}
           <div style={{ marginBottom: '16px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}>
+            <label htmlFor="player-number" style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}>
               Jersey #
             </label>
             <input
+              id="player-number"
               type="text"
               inputMode="numeric"
               value={number}
@@ -2367,8 +2385,9 @@ function PlayerModal({ player, onSave, onDelete, onClose, deleteConfirmId }) {
 
           {/* Notes */}
           <div style={{ marginBottom: '24px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}>Notes</label>
+            <label htmlFor="player-notes" style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}>Notes</label>
             <textarea
+              id="player-notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="e.g. Strong server, shaky under pressure"
