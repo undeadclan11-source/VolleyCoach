@@ -27,9 +27,20 @@ export default function App() {
       label: 'Roster',
       ariaLabel: 'Roster tab',
       icon: (active) => (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75" opacity={active ? 1 : 0.5}/><path d="M21 21v-2a4 4 0 0 0-3-3.87" opacity={active ? 1 : 0.5}/>
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="9" cy="7" r="4" />
+          <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" opacity={active ? 1 : 0.5} />
+          <path d="M21 21v-2a4 4 0 0 0-3-3.87" opacity={active ? 1 : 0.5} />
         </svg>
       ),
     },
@@ -37,10 +48,20 @@ export default function App() {
       id: 'gameday',
       label: 'Game Day',
       ariaLabel: 'Game Day tab',
-      icon: (active) => (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
-          <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>
+      icon: () => (
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" />
+          <path d="M16 2v4M8 2v4M3 10h18" />
+          <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01" />
         </svg>
       ),
     },
@@ -49,10 +70,19 @@ export default function App() {
       label: 'In-Game',
       ariaLabel: 'In-Game tab',
       icon: () => (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <path d="M12 3a12.3 12.3 0 0 0 4 10 12.3 12.3 0 0 0-4 10"/>
-          <path d="M3 9h18M3 15h18"/>
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 3a12.3 12.3 0 0 0 4 10 12.3 12.3 0 0 0-4 10" />
+          <path d="M3 9h18M3 15h18" />
         </svg>
       ),
     },
@@ -85,15 +115,32 @@ export default function App() {
           alignItems: 'center',
         }}
       >
-        <div style={{ fontSize: '20px', fontWeight: '700', color: styles.colors.orange, fontFamily: styles.fontFamilyDisplay, letterSpacing: '-0.02em' }}>
+        <div
+          style={{
+            fontSize: '20px',
+            fontWeight: '700',
+            color: styles.colors.orange,
+            fontFamily: styles.fontFamilyDisplay,
+            letterSpacing: '-0.02em',
+          }}
+        >
           🏐 VolleyCoach
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {activeTab === 'ingame' ? (
-            <div style={{ backgroundColor: styles.colors.card, padding: '4px 10px', borderRadius: '4px', fontSize: '12px', fontWeight: '600', color: styles.colors.orange }}>
+            <div
+              style={{
+                backgroundColor: styles.colors.card,
+                padding: '4px 10px',
+                borderRadius: '4px',
+                fontSize: '12px',
+                fontWeight: '600',
+                color: styles.colors.orange,
+              }}
+            >
               GAME {game.currentGame}
             </div>
-          ) : (roster.record.wins > 0 || roster.record.losses > 0) ? (
+          ) : roster.record.wins > 0 || roster.record.losses > 0 ? (
             <span style={{ fontSize: '13px', fontWeight: 800, color: styles.colors.muted }}>
               {roster.record.wins}W – {roster.record.losses}L
             </span>
@@ -173,8 +220,6 @@ export default function App() {
             gameWonBy={game.gameWonBy}
             emergencySubOut={game.emergencySubOut}
             emergencySubIn={game.emergencySubIn}
-            record={roster.record}
-            game2StartPlan={game.game2StartPlan}
             onUpdateScore={game.updateScore}
             onRotate={game.rotateTeam}
             onExecuteSub={game.executeSub}
@@ -257,11 +302,7 @@ export default function App() {
       )}
 
       {showSettings && (
-        <SettingsModal
-          settings={game.settings}
-          onChange={game.setSettings}
-          onClose={() => setShowSettings(false)}
-        />
+        <SettingsModal settings={game.settings} onChange={game.setSettings} onClose={() => setShowSettings(false)} />
       )}
     </div>
   )

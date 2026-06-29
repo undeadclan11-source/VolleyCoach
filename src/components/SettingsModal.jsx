@@ -3,7 +3,9 @@ import { styles } from '../utils'
 
 export function SettingsModal({ settings, onChange, onClose }) {
   useEffect(() => {
-    function onKeyDown(e) { if (e.key === 'Escape') onClose() }
+    function onKeyDown(e) {
+      if (e.key === 'Escape') onClose()
+    }
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [onClose])
@@ -92,14 +94,16 @@ export function SettingsModal({ settings, onChange, onClose }) {
                 justifyContent: settings.thirdSetRequiresSubs ? 'flex-end' : 'flex-start',
               }}
             >
-              <span style={{
-                width: '20px',
-                height: '20px',
-                borderRadius: '50%',
-                backgroundColor: '#fff',
-                display: 'block',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
-              }} />
+              <span
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '50%',
+                  backgroundColor: '#fff',
+                  display: 'block',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+                }}
+              />
             </button>
           </label>
         </div>

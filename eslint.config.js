@@ -7,6 +7,23 @@ export default [
   js.configs.recommended,
   {
     files: ['**/*.{js,jsx}'],
+    languageOptions: {
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        console: 'readonly',
+        document: 'readonly',
+        localStorage: 'readonly',
+        navigator: 'readonly',
+        setTimeout: 'readonly',
+        window: 'readonly',
+      },
+    },
     plugins: {
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,

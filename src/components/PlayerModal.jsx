@@ -14,7 +14,9 @@ export function PlayerModal({ player, onSave, onDelete, onClose, deleteConfirmId
   const overall = Math.round((serve + pass + set + hit) / 4)
 
   useEffect(() => {
-    function onKeyDown(e) { if (e.key === 'Escape') onClose() }
+    function onKeyDown(e) {
+      if (e.key === 'Escape') onClose()
+    }
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [onClose])
@@ -106,7 +108,12 @@ export function PlayerModal({ player, onSave, onDelete, onClose, deleteConfirmId
 
         <div style={{ padding: '16px' }}>
           <div style={{ marginBottom: '16px' }}>
-            <label htmlFor="player-name" style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}>Name</label>
+            <label
+              htmlFor="player-name"
+              style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}
+            >
+              Name
+            </label>
             <input
               id="player-name"
               type="text"
@@ -127,7 +134,12 @@ export function PlayerModal({ player, onSave, onDelete, onClose, deleteConfirmId
           </div>
 
           <div style={{ marginBottom: '16px' }}>
-            <label htmlFor="player-number" style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}>Jersey #</label>
+            <label
+              htmlFor="player-number"
+              style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}
+            >
+              Jersey #
+            </label>
             <input
               id="player-number"
               type="text"
@@ -183,7 +195,9 @@ export function PlayerModal({ player, onSave, onDelete, onClose, deleteConfirmId
             { label: 'Hit', value: hit, setter: setHit },
           ].map(({ label, value, setter }) => (
             <div key={label} style={{ marginBottom: '12px' }}>
-              <label style={{ fontSize: '12px', display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+              <label
+                style={{ fontSize: '12px', display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}
+              >
                 <span>{label}</span>
                 <span style={{ color: getRatingColor(value), fontWeight: '600' }}>{value}</span>
               </label>
@@ -198,34 +212,43 @@ export function PlayerModal({ player, onSave, onDelete, onClose, deleteConfirmId
             </div>
           ))}
 
-          <div style={{
-            marginTop: '16px',
-            padding: '12px',
-            backgroundColor: styles.colors.card,
-            borderRadius: '8px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-            <span style={{ fontSize: '14px', fontWeight: '600' }}>Overall Rating</span>
-            <span style={{
-              width: '28px',
-              height: '28px',
-              borderRadius: '50%',
-              backgroundColor: getRatingColor(overall),
+          <div
+            style={{
+              marginTop: '16px',
+              padding: '12px',
+              backgroundColor: styles.colors.card,
+              borderRadius: '8px',
               display: 'flex',
+              justifyContent: 'space-between',
               alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '14px',
-              fontWeight: '700',
-              color: '#fff',
-            }}>
+            }}
+          >
+            <span style={{ fontSize: '14px', fontWeight: '600' }}>Overall Rating</span>
+            <span
+              style={{
+                width: '28px',
+                height: '28px',
+                borderRadius: '50%',
+                backgroundColor: getRatingColor(overall),
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '14px',
+                fontWeight: '700',
+                color: '#fff',
+              }}
+            >
               {overall}
             </span>
           </div>
 
           <div style={{ marginBottom: '24px', marginTop: '16px' }}>
-            <label htmlFor="player-notes" style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}>Notes</label>
+            <label
+              htmlFor="player-notes"
+              style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '6px' }}
+            >
+              Notes
+            </label>
             <textarea
               id="player-notes"
               value={notes}

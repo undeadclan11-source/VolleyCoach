@@ -9,7 +9,7 @@ export function useGameState(players) {
   const [subPlan, setSubPlan] = useState({})
   const [score, setScore] = useState({ us: 0, them: 0 })
   const [currentGame, setCurrentGame] = useState(1)
-  const [game1Bench, setGame1Bench] = useState([])
+  const [, setGame1Bench] = useState([])
   const [game2Bench, setGame2Bench] = useState([])
   const [subsExecuted, setSubsExecuted] = useState({})
   const [alertDismissed, setAlertDismissed] = useState(false)
@@ -39,7 +39,9 @@ export function useGameState(players) {
 
   const markAllPresent = () => {
     const next = {}
-    players.forEach((p) => { next[p.id] = true })
+    players.forEach((p) => {
+      next[p.id] = true
+    })
     setAttendance(next)
   }
 
@@ -98,7 +100,9 @@ export function useGameState(players) {
     } else {
       setSubPlan((prev) => {
         const next = { ...prev }
-        Object.keys(next).forEach((key) => { if (next[key] === benchPlayerId) delete next[key] })
+        Object.keys(next).forEach((key) => {
+          if (next[key] === benchPlayerId) delete next[key]
+        })
         next[rotationIndex] = benchPlayerId
         return next
       })
@@ -106,8 +110,7 @@ export function useGameState(players) {
   }
 
   // Scoring
-  const updateScore = (team, delta) =>
-    setScore((prev) => ({ ...prev, [team]: Math.max(0, prev[team] + delta) }))
+  const updateScore = (team, delta) => setScore((prev) => ({ ...prev, [team]: Math.max(0, prev[team] + delta) }))
 
   // Rotation
   const rotateTeam = () => setRotation((prev) => [...prev.slice(1), prev[0]])
