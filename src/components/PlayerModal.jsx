@@ -14,6 +14,12 @@ export function PlayerModal({ player, onSave, onDelete, onClose, deleteConfirmId
   const overall = Math.round((serve + pass + set + hit) / 4)
 
   useEffect(() => {
+    function onKeyDown(e) { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [onClose])
+
+  useEffect(() => {
     const sheet = document.getElementById('player-modal-sheet')
     if (!sheet) return
 

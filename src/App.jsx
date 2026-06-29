@@ -22,9 +22,40 @@ export default function App() {
   useWakeLock(activeTab)
 
   const navTabs = [
-    { id: 'roster', icon: '👥', label: 'Roster', ariaLabel: 'Roster tab' },
-    { id: 'gameday', icon: '📋', label: 'Game Day', ariaLabel: 'Game Day tab' },
-    { id: 'ingame', icon: '🏐', label: 'In-Game', ariaLabel: 'In-Game tab' },
+    {
+      id: 'roster',
+      label: 'Roster',
+      ariaLabel: 'Roster tab',
+      icon: (active) => (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" opacity={active ? 1 : 0.5}/><path d="M21 21v-2a4 4 0 0 0-3-3.87" opacity={active ? 1 : 0.5}/>
+        </svg>
+      ),
+    },
+    {
+      id: 'gameday',
+      label: 'Game Day',
+      ariaLabel: 'Game Day tab',
+      icon: (active) => (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+          <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>
+        </svg>
+      ),
+    },
+    {
+      id: 'ingame',
+      label: 'In-Game',
+      ariaLabel: 'In-Game tab',
+      icon: () => (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 3a12.3 12.3 0 0 0 4 10 12.3 12.3 0 0 0-4 10"/>
+          <path d="M3 9h18M3 15h18"/>
+        </svg>
+      ),
+    },
   ]
 
   return (
@@ -94,6 +125,7 @@ export default function App() {
         {activeTab === 'roster' && (
           <RosterTab
             players={roster.players}
+            record={roster.record}
             onAddPlayer={roster.openAddPlayer}
             onEditPlayer={roster.openEditPlayer}
             onResetRecord={roster.resetRecord}
@@ -196,7 +228,7 @@ export default function App() {
               color: activeTab === tab.id ? styles.colors.orange : styles.colors.muted,
             }}
           >
-            <span style={{ fontSize: '20px' }}>{tab.icon}</span>
+            {tab.icon(activeTab === tab.id)}
             <span style={{ fontSize: '11px', fontWeight: '500' }}>{tab.label}</span>
           </button>
         ))}

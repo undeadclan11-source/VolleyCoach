@@ -1,6 +1,13 @@
+import { useEffect } from 'react'
 import { styles } from '../utils'
 
 export function SettingsModal({ settings, onChange, onClose }) {
+  useEffect(() => {
+    function onKeyDown(e) { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [onClose])
+
   return (
     <div
       style={{
@@ -64,12 +71,36 @@ export function SettingsModal({ settings, onChange, onClose }) {
                 Off by default — most rec leagues play the 3rd set to win, no mandatory subs.
               </div>
             </span>
-            <input
-              type="checkbox"
-              checked={settings.thirdSetRequiresSubs}
-              onChange={(e) => onChange({ ...settings, thirdSetRequiresSubs: e.target.checked })}
-              style={{ width: '20px', height: '20px', flexShrink: 0, marginTop: '2px', accentColor: styles.colors.orange }}
-            />
+            {/* custom toggle */}
+            <button
+              role="switch"
+              aria-checked={settings.thirdSetRequiresSubs}
+              onClick={() => onChange({ ...settings, thirdSetRequiresSubs: !settings.thirdSetRequiresSubs })}
+              style={{
+                flexShrink: 0,
+                marginTop: '2px',
+                width: '44px',
+                height: '24px',
+                borderRadius: '999px',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '2px',
+                backgroundColor: settings.thirdSetRequiresSubs ? styles.colors.orange : styles.colors.border,
+                transition: 'background-color 0.15s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: settings.thirdSetRequiresSubs ? 'flex-end' : 'flex-start',
+              }}
+            >
+              <span style={{
+                width: '20px',
+                height: '20px',
+                borderRadius: '50%',
+                backgroundColor: '#fff',
+                display: 'block',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+              }} />
+            </button>
           </label>
         </div>
       </div>

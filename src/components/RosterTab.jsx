@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { styles, getRatingColor } from '../utils'
 
-export function RosterTab({ players, onAddPlayer, onEditPlayer, onResetRecord }) {
+export function RosterTab({ players, record, onAddPlayer, onEditPlayer, onResetRecord }) {
   const [confirmReset, setConfirmReset] = useState(false)
   const sortedPlayers = [...players].sort((a, b) => b.overall - a.overall)
 
@@ -74,6 +74,7 @@ export function RosterTab({ players, onAddPlayer, onEditPlayer, onResetRecord })
         </div>
       )}
 
+      {(players.length > 0 || record?.wins > 0 || record?.losses > 0) && (
       <div style={{ textAlign: 'center', marginTop: '24px', paddingBottom: '80px' }}>
         <button
           onClick={() => {
@@ -97,6 +98,7 @@ export function RosterTab({ players, onAddPlayer, onEditPlayer, onResetRecord })
           {confirmReset ? 'Tap again to confirm reset' : 'Reset season record'}
         </button>
       </div>
+      )}
 
       <button
         onClick={onAddPlayer}
@@ -105,7 +107,7 @@ export function RosterTab({ players, onAddPlayer, onEditPlayer, onResetRecord })
         style={{
           position: 'fixed',
           bottom: '88px',
-          right: '16px',
+          right: 'calc(max(0px, (100vw - 480px) / 2) + 16px)',
           width: '56px',
           height: '56px',
           borderRadius: '50%',

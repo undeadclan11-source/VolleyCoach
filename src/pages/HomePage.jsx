@@ -22,7 +22,7 @@ const font = {
 }
 
 // ─── Shared helpers ──────────────────────────────────────────────────────────
-function Section({ children, style = {} }) {
+function Section({ children, style = {}, innerMaxWidth = '960px' }) {
   return (
     <section style={{
       width: '100%',
@@ -30,7 +30,7 @@ function Section({ children, style = {} }) {
       boxSizing: 'border-box',
       ...style,
     }}>
-      <div style={{ maxWidth: '720px', margin: '0 auto' }}>
+      <div style={{ maxWidth: innerMaxWidth, margin: '0 auto' }}>
         {children}
       </div>
     </section>
@@ -145,7 +145,7 @@ function Nav() {
           letterSpacing: '-0.01em',
         }}
       >
-        Open App
+        Open the Planner
       </Link>
     </nav>
   )
@@ -188,7 +188,7 @@ function Hero() {
           margin: '0 0 24px 0',
           textWrap: 'balance',
         }}>
-          Volleyball Game Day<br />Planner for Coaches
+          You're a volunteer coach,<br />not a logistics manager.
         </h1>
 
         <p style={{
@@ -201,20 +201,10 @@ function Hero() {
           marginLeft: 'auto',
           marginRight: 'auto',
         }}>
-          Track attendance, build your lineup, plan subs, and run the game — all from your phone. Built for rec-league coaches, not competitive clubs.
+          VolleyCoach handles attendance, lineups, subs, and rotation — all from your phone. Built for rec-league coaches, not competitive clubs.
         </p>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-          <PlannerCTA />
-          <p style={{
-            fontFamily: font.body,
-            fontSize: '13px',
-            color: C.muted,
-            margin: 0,
-          }}>
-            Works in your browser. No download required.
-          </p>
-        </div>
+        <PlannerCTA />
       </div>
     </section>
   )
@@ -240,7 +230,7 @@ function Problem() {
   return (
     <Section style={{ backgroundColor: C.surface, borderTop: `1px solid ${C.divider}`, borderBottom: `1px solid ${C.divider}` }}>
       <Eyebrow>The Situation</Eyebrow>
-      <SectionHeading>You're a volunteer coach, not a logistics manager.</SectionHeading>
+      <SectionHeading>Sound familiar?</SectionHeading>
       <p style={{
         fontFamily: font.body,
         fontSize: '1.05rem',
@@ -312,7 +302,7 @@ const steps = [
 
 function HowItWorks() {
   return (
-    <Section>
+    <Section innerMaxWidth="720px">
       <Eyebrow>How It Works</Eyebrow>
       <SectionHeading>Five steps, game day to final whistle.</SectionHeading>
 
@@ -402,7 +392,7 @@ function Features() {
   return (
     <Section style={{ backgroundColor: C.surface, borderTop: `1px solid ${C.divider}`, borderBottom: `1px solid ${C.divider}` }}>
       <Eyebrow>What It Does</Eyebrow>
-      <SectionHeading style={{ maxWidth: '65ch' }}>Everything for game day. Nothing you don't need.</SectionHeading>
+      <SectionHeading style={{ maxWidth: '65ch' }}>Everything for game day. Nothing else.</SectionHeading>
 
       <div style={{
         display: 'grid',
@@ -487,7 +477,7 @@ const faqs = [
   },
   {
     q: 'Where does my data go?',
-    a: 'Your roster and settings save locally on your device using localStorage. Nothing leaves your phone.',
+    a: 'Everything saves on your device. Nothing is sent to a server or shared anywhere.',
   },
   {
     q: 'Does it work on iPhone and Android?',
@@ -495,7 +485,7 @@ const faqs = [
   },
   {
     q: 'Can I use it for more than one team?',
-    a: 'The app tracks one roster at a time. Use the Reset button to clear the roster and start fresh with a different team.',
+    a: 'It stores one roster at a time. To switch teams, tap "Reset season record" on the Roster tab and start fresh for the next team.',
   },
 ]
 
@@ -503,9 +493,9 @@ function FAQ() {
   const [open, setOpen] = useState(null)
 
   return (
-    <Section style={{ backgroundColor: C.surface, borderTop: `1px solid ${C.divider}` }}>
+    <Section style={{ backgroundColor: C.surface, borderTop: `1px solid ${C.divider}` }} innerMaxWidth="720px">
       <Eyebrow>FAQ</Eyebrow>
-      <SectionHeading>Common questions.</SectionHeading>
+      <SectionHeading>Common Questions</SectionHeading>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
         {faqs.map((item, i) => (
