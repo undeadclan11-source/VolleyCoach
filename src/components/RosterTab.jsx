@@ -7,7 +7,15 @@ export function RosterTab({ players, record, onAddPlayer, onEditPlayer, onResetR
 
   return (
     <div style={{ padding: '16px' }}>
-      <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '20px', fontFamily: styles.fontFamilyDisplay, letterSpacing: '-0.02em' }}>
+      <h2
+        style={{
+          fontSize: '20px',
+          fontWeight: '700',
+          marginBottom: '20px',
+          fontFamily: styles.fontFamilyDisplay,
+          letterSpacing: '-0.02em',
+        }}
+      >
         Season Roster ({players.length})
       </h2>
 
@@ -64,7 +72,17 @@ export function RosterTab({ players, record, onAddPlayer, onEditPlayer, onResetR
                   S:{player.serve} P:{player.pass} Set:{player.set} H:{player.hit}
                 </div>
                 {player.notes && (
-                  <div style={{ fontSize: '11px', color: styles.colors.muted, fontStyle: 'italic', marginTop: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div
+                    style={{
+                      fontSize: '11px',
+                      color: styles.colors.muted,
+                      fontStyle: 'italic',
+                      marginTop: '4px',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
                     {player.notes}
                   </div>
                 )}
@@ -75,29 +93,29 @@ export function RosterTab({ players, record, onAddPlayer, onEditPlayer, onResetR
       )}
 
       {(players.length > 0 || record?.wins > 0 || record?.losses > 0) && (
-      <div style={{ textAlign: 'center', marginTop: '24px', paddingBottom: '80px' }}>
-        <button
-          onClick={() => {
-            if (confirmReset) {
-              onResetRecord()
-              setConfirmReset(false)
-            } else {
-              setConfirmReset(true)
-              setTimeout(() => setConfirmReset(false), 3000)
-            }
-          }}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: confirmReset ? styles.colors.red : styles.colors.muted,
-            fontSize: '13px',
-            cursor: 'pointer',
-            fontWeight: confirmReset ? 700 : 400,
-          }}
-        >
-          {confirmReset ? 'Tap again to confirm reset' : 'Reset season record'}
-        </button>
-      </div>
+        <div style={{ textAlign: 'center', marginTop: '24px', paddingBottom: '80px' }}>
+          <button
+            onClick={() => {
+              if (confirmReset) {
+                onResetRecord()
+                setConfirmReset(false)
+              } else {
+                setConfirmReset(true)
+                setTimeout(() => setConfirmReset(false), 3000)
+              }
+            }}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: confirmReset ? styles.colors.red : styles.colors.muted,
+              fontSize: '13px',
+              cursor: 'pointer',
+              fontWeight: confirmReset ? 700 : 400,
+            }}
+          >
+            {confirmReset ? 'Tap again to confirm reset' : 'Reset season record'}
+          </button>
+        </div>
       )}
 
       <button

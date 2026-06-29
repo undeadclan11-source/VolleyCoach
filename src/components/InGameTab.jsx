@@ -18,8 +18,6 @@ export function InGameTab({
   gameWonBy,
   emergencySubOut,
   emergencySubIn,
-  record,
-  game2StartPlan,
   onUpdateScore,
   onRotate,
   onExecuteSub,
@@ -50,9 +48,7 @@ export function InGameTab({
         next[index] = selectedBenchId
         return next
       })
-      const staleKeys = Object.keys(subPlan).filter(
-        (key) => Number(key) === index || subPlan[key] === selectedBenchId
-      )
+      const staleKeys = Object.keys(subPlan).filter((key) => Number(key) === index || subPlan[key] === selectedBenchId)
       if (staleKeys.length > 0) {
         setSubPlan((prev) => {
           const next = { ...prev }
@@ -135,8 +131,18 @@ export function InGameTab({
   if (!isLineupComplete) {
     return (
       <div style={{ padding: '16px' }}>
-        <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: `1px solid ${styles.colors.red}`, borderRadius: '8px', padding: '16px', textAlign: 'center' }}>
-          <span style={{ color: styles.colors.red, fontWeight: '600' }}>⚠️ Complete your lineup in Game Day tab first.</span>
+        <div
+          style={{
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            border: `1px solid ${styles.colors.red}`,
+            borderRadius: '8px',
+            padding: '16px',
+            textAlign: 'center',
+          }}
+        >
+          <span style={{ color: styles.colors.red, fontWeight: '600' }}>
+            ⚠️ Complete your lineup in Game Day tab first.
+          </span>
         </div>
       </div>
     )
@@ -147,8 +153,20 @@ export function InGameTab({
   return (
     <div style={{ padding: '16px' }}>
       <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginBottom: '8px' }}>
-        <ScoreColumn team="US" score={score.us} onIncrement={() => onUpdateScore('us', 1)} onDecrement={() => onUpdateScore('us', -1)} color={styles.colors.green} />
-        <ScoreColumn team="THEM" score={score.them} onIncrement={() => onUpdateScore('them', 1)} onDecrement={() => onUpdateScore('them', -1)} color={styles.colors.red} />
+        <ScoreColumn
+          team="US"
+          score={score.us}
+          onIncrement={() => onUpdateScore('us', 1)}
+          onDecrement={() => onUpdateScore('us', -1)}
+          color={styles.colors.green}
+        />
+        <ScoreColumn
+          team="THEM"
+          score={score.them}
+          onIncrement={() => onUpdateScore('them', 1)}
+          onDecrement={() => onUpdateScore('them', -1)}
+          color={styles.colors.red}
+        />
       </div>
 
       <div style={{ textAlign: 'center', fontSize: '12px', color: styles.colors.muted, marginBottom: '16px' }}>
@@ -156,31 +174,75 @@ export function InGameTab({
       </div>
 
       {gameWonBy && (
-        <div style={{
-          backgroundColor: gameWonBy === 'us' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)',
-          border: `1px solid ${gameWonBy === 'us' ? styles.colors.green : styles.colors.red}`,
-          borderRadius: '8px',
-          padding: '12px',
-          textAlign: 'center',
-          marginBottom: '16px',
-        }}>
-          <span style={{ fontSize: '16px', fontWeight: '700', color: gameWonBy === 'us' ? styles.colors.green : styles.colors.red }}>
+        <div
+          style={{
+            backgroundColor: gameWonBy === 'us' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+            border: `1px solid ${gameWonBy === 'us' ? styles.colors.green : styles.colors.red}`,
+            borderRadius: '8px',
+            padding: '12px',
+            textAlign: 'center',
+            marginBottom: '16px',
+          }}
+        >
+          <span
+            style={{
+              fontSize: '16px',
+              fontWeight: '700',
+              color: gameWonBy === 'us' ? styles.colors.green : styles.colors.red,
+            }}
+          >
             {gameWonBy === 'us' ? '🏆 GAME WON — US!' : 'GAME LOST'}
           </span>
         </div>
       )}
 
       <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-        <button onClick={onLogWin} style={{ flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #22C55E44', background: '#22C55E22', color: '#22C55E', fontWeight: 800, fontSize: '14px', cursor: 'pointer' }}>
+        <button
+          onClick={onLogWin}
+          style={{
+            flex: 1,
+            padding: '12px',
+            borderRadius: '10px',
+            border: '1px solid #22C55E44',
+            background: '#22C55E22',
+            color: '#22C55E',
+            fontWeight: 800,
+            fontSize: '14px',
+            cursor: 'pointer',
+          }}
+        >
           ✓ Log Win
         </button>
-        <button onClick={onLogLoss} style={{ flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #EF444444', background: '#EF444422', color: '#EF4444', fontWeight: 800, fontSize: '14px', cursor: 'pointer' }}>
+        <button
+          onClick={onLogLoss}
+          style={{
+            flex: 1,
+            padding: '12px',
+            borderRadius: '10px',
+            border: '1px solid #EF444444',
+            background: '#EF444422',
+            color: '#EF4444',
+            fontWeight: 800,
+            fontSize: '14px',
+            cursor: 'pointer',
+          }}
+        >
           ✗ Log Loss
         </button>
       </div>
 
       {shouldShowSubAlert && (
-        <div className="sub-alert" role="alert" style={{ backgroundColor: 'rgba(251, 191, 36, 0.15)', border: `1px solid ${styles.colors.yellow}`, borderRadius: '8px', padding: '12px', marginBottom: '16px' }}>
+        <div
+          className="sub-alert"
+          role="alert"
+          style={{
+            backgroundColor: 'rgba(251, 191, 36, 0.15)',
+            border: `1px solid ${styles.colors.yellow}`,
+            borderRadius: '8px',
+            padding: '12px',
+            marginBottom: '16px',
+          }}
+        >
           <div style={{ fontWeight: '700', color: styles.colors.yellow, marginBottom: '8px' }}>
             ⚠️ {subAlertThreshold}-POINT MARK — {currentGame === 3 ? 'GAME 3 ' : ''}SUB TIME
           </div>
@@ -191,21 +253,52 @@ export function InGameTab({
             if (!incoming || !outgoing) return null
 
             return (
-              <div key={rotIndex} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderTop: `1px solid ${styles.colors.border}` }}>
+              <div
+                key={rotIndex}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '8px 0',
+                  borderTop: `1px solid ${styles.colors.border}`,
+                }}
+              >
                 <span style={{ fontSize: '13px' }}>
                   {incoming.name} in for {outgoing.name} (P{parseInt(rotIndex) + 1})
                 </span>
                 <div style={{ display: 'flex', gap: '6px' }}>
                   <button
-                    onClick={() => { setSelectedBenchId(incoming.id); setSelectedCourtIdx(null); onDismissAlert() }}
+                    onClick={() => {
+                      setSelectedBenchId(incoming.id)
+                      setSelectedCourtIdx(null)
+                      onDismissAlert()
+                    }}
                     title="Pick a different court spot for this sub"
-                    style={{ padding: '6px 10px', backgroundColor: 'transparent', border: `1px solid ${styles.colors.border}`, borderRadius: '4px', color: styles.colors.muted, fontSize: '12px', fontWeight: '600', cursor: 'pointer' }}
+                    style={{
+                      padding: '6px 10px',
+                      backgroundColor: 'transparent',
+                      border: `1px solid ${styles.colors.border}`,
+                      borderRadius: '4px',
+                      color: styles.colors.muted,
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                    }}
                   >
                     Change spot
                   </button>
                   <button
                     onClick={() => onExecuteSub(parseInt(rotIndex), benchPlayerId)}
-                    style={{ padding: '6px 12px', backgroundColor: styles.colors.green, border: 'none', borderRadius: '4px', color: '#fff', fontSize: '12px', fontWeight: '600', cursor: 'pointer' }}
+                    style={{
+                      padding: '6px 12px',
+                      backgroundColor: styles.colors.green,
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#fff',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                    }}
                   >
                     Confirm
                   </button>
@@ -213,14 +306,38 @@ export function InGameTab({
               </div>
             )
           })}
-          <button onClick={onDismissAlert} style={{ marginTop: '8px', background: 'none', border: 'none', color: styles.colors.muted, fontSize: '12px', cursor: 'pointer', textDecoration: 'underline' }}>
+          <button
+            onClick={onDismissAlert}
+            style={{
+              marginTop: '8px',
+              background: 'none',
+              border: 'none',
+              color: styles.colors.muted,
+              fontSize: '12px',
+              cursor: 'pointer',
+              textDecoration: 'underline',
+            }}
+          >
             Dismiss
           </button>
         </div>
       )}
 
       {alertDismissed && Object.keys(subPlan).some((key) => !subsExecuted[key]) && (
-        <button onClick={onReshowAlert} style={{ width: '100%', padding: '8px', backgroundColor: styles.colors.card, border: `1px solid ${styles.colors.yellow}`, borderRadius: '6px', color: styles.colors.yellow, fontSize: '12px', cursor: 'pointer', marginBottom: '16px' }}>
+        <button
+          onClick={onReshowAlert}
+          style={{
+            width: '100%',
+            padding: '8px',
+            backgroundColor: styles.colors.card,
+            border: `1px solid ${styles.colors.yellow}`,
+            borderRadius: '6px',
+            color: styles.colors.yellow,
+            fontSize: '12px',
+            cursor: 'pointer',
+            marginBottom: '16px',
+          }}
+        >
           ↩ Re-show Sub Alert
         </button>
       )}
@@ -247,7 +364,21 @@ export function InGameTab({
         </div>
       )}
 
-      <button onClick={onRotate} style={{ width: '100%', padding: '14px', backgroundColor: styles.colors.orange, border: 'none', borderRadius: '8px', color: '#fff', fontSize: '15px', fontWeight: '700', cursor: 'pointer', marginTop: '16px' }}>
+      <button
+        onClick={onRotate}
+        style={{
+          width: '100%',
+          padding: '14px',
+          backgroundColor: styles.colors.orange,
+          border: 'none',
+          borderRadius: '8px',
+          color: '#fff',
+          fontSize: '15px',
+          fontWeight: '700',
+          cursor: 'pointer',
+          marginTop: '16px',
+        }}
+      >
         🔄 Rotate — We Won Serve
       </button>
 
@@ -276,7 +407,20 @@ export function InGameTab({
                 }}
               >
                 {player.name.split(' ')[0]}
-                <span style={{ width: '16px', height: '16px', borderRadius: '50%', backgroundColor: getRatingColor(player.overall), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', fontWeight: '700', color: '#fff' }}>
+                <span
+                  style={{
+                    width: '16px',
+                    height: '16px',
+                    borderRadius: '50%',
+                    backgroundColor: getRatingColor(player.overall),
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '9px',
+                    fontWeight: '700',
+                    color: '#fff',
+                  }}
+                >
                   {player.overall}
                 </span>
               </button>
@@ -286,27 +430,77 @@ export function InGameTab({
         </div>
       </div>
 
-      <div style={{ marginTop: '20px', backgroundColor: styles.colors.card, border: `1px solid ${styles.colors.border}`, borderRadius: '8px', padding: '12px' }}>
+      <div
+        style={{
+          marginTop: '20px',
+          backgroundColor: styles.colors.card,
+          border: `1px solid ${styles.colors.border}`,
+          borderRadius: '8px',
+          padding: '12px',
+        }}
+      >
         <h4 style={{ fontSize: '13px', fontWeight: '600', marginBottom: '10px' }}>Manual / Emergency Sub</h4>
         <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
           <div style={{ flex: 1 }}>
-            <label htmlFor="emergency-sub-out" style={{ fontSize: '11px', color: styles.colors.muted, display: 'block', marginBottom: '4px' }}>Sub OUT</label>
-            <select id="emergency-sub-out" value={emergencySubOut || ''} onChange={(e) => onSetEmergencySubOut(e.target.value || null)} style={{ width: '100%', padding: '8px', backgroundColor: styles.colors.surface, border: `1px solid ${styles.colors.border}`, borderRadius: '4px', color: styles.colors.text, fontSize: '13px' }}>
+            <label
+              htmlFor="emergency-sub-out"
+              style={{ fontSize: '11px', color: styles.colors.muted, display: 'block', marginBottom: '4px' }}
+            >
+              Sub OUT
+            </label>
+            <select
+              id="emergency-sub-out"
+              value={emergencySubOut || ''}
+              onChange={(e) => onSetEmergencySubOut(e.target.value || null)}
+              style={{
+                width: '100%',
+                padding: '8px',
+                backgroundColor: styles.colors.surface,
+                border: `1px solid ${styles.colors.border}`,
+                borderRadius: '4px',
+                color: styles.colors.text,
+                fontSize: '13px',
+              }}
+            >
               <option value="">Select...</option>
               {rotation.map((playerId) => {
                 if (!playerId) return null
                 const player = getPlayerById(playerId)
                 if (!player) return null
-                return <option key={playerId} value={playerId}>{player.name}</option>
+                return (
+                  <option key={playerId} value={playerId}>
+                    {player.name}
+                  </option>
+                )
               })}
             </select>
           </div>
           <div style={{ flex: 1 }}>
-            <label htmlFor="emergency-sub-in" style={{ fontSize: '11px', color: styles.colors.muted, display: 'block', marginBottom: '4px' }}>Sub IN</label>
-            <select id="emergency-sub-in" value={emergencySubIn || ''} onChange={(e) => onSetEmergencySubIn(e.target.value || null)} style={{ width: '100%', padding: '8px', backgroundColor: styles.colors.surface, border: `1px solid ${styles.colors.border}`, borderRadius: '4px', color: styles.colors.text, fontSize: '13px' }}>
+            <label
+              htmlFor="emergency-sub-in"
+              style={{ fontSize: '11px', color: styles.colors.muted, display: 'block', marginBottom: '4px' }}
+            >
+              Sub IN
+            </label>
+            <select
+              id="emergency-sub-in"
+              value={emergencySubIn || ''}
+              onChange={(e) => onSetEmergencySubIn(e.target.value || null)}
+              style={{
+                width: '100%',
+                padding: '8px',
+                backgroundColor: styles.colors.surface,
+                border: `1px solid ${styles.colors.border}`,
+                borderRadius: '4px',
+                color: styles.colors.text,
+                fontSize: '13px',
+              }}
+            >
               <option value="">Select...</option>
               {benchPlayers.map((player) => (
-                <option key={player.id} value={player.id}>{player.name}</option>
+                <option key={player.id} value={player.id}>
+                  {player.name}
+                </option>
               ))}
             </select>
           </div>
@@ -314,19 +508,56 @@ export function InGameTab({
         <button
           onClick={onMakeEmergencySub}
           disabled={!emergencySubOut || !emergencySubIn}
-          style={{ width: '100%', padding: '10px', backgroundColor: emergencySubOut && emergencySubIn ? styles.colors.blue : styles.colors.surface, border: 'none', borderRadius: '6px', color: emergencySubOut && emergencySubIn ? '#fff' : styles.colors.muted, fontSize: '13px', fontWeight: '600', cursor: emergencySubOut && emergencySubIn ? 'pointer' : 'not-allowed' }}
+          style={{
+            width: '100%',
+            padding: '10px',
+            backgroundColor: emergencySubOut && emergencySubIn ? styles.colors.blue : styles.colors.surface,
+            border: 'none',
+            borderRadius: '6px',
+            color: emergencySubOut && emergencySubIn ? '#fff' : styles.colors.muted,
+            fontSize: '13px',
+            fontWeight: '600',
+            cursor: emergencySubOut && emergencySubIn ? 'pointer' : 'not-allowed',
+          }}
         >
           Make Sub
         </button>
       </div>
 
       {currentGame < 3 && (
-        <button onClick={onStartNextGame} style={{ width: '100%', padding: '12px', backgroundColor: 'transparent', border: `2px solid ${styles.colors.blue}`, borderRadius: '8px', color: styles.colors.blue, fontSize: '14px', fontWeight: '600', cursor: 'pointer', marginTop: '20px' }}>
+        <button
+          onClick={onStartNextGame}
+          style={{
+            width: '100%',
+            padding: '12px',
+            backgroundColor: 'transparent',
+            border: `2px solid ${styles.colors.blue}`,
+            borderRadius: '8px',
+            color: styles.colors.blue,
+            fontSize: '14px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            marginTop: '20px',
+          }}
+        >
           Start Game {currentGame + 1} →
         </button>
       )}
 
-      <button onClick={onResetGame} style={{ width: '100%', padding: '12px', backgroundColor: 'transparent', border: `1px solid rgba(239, 68, 68, 0.5)`, borderRadius: '8px', color: styles.colors.red, fontSize: '13px', cursor: 'pointer', marginTop: '16px' }}>
+      <button
+        onClick={onResetGame}
+        style={{
+          width: '100%',
+          padding: '12px',
+          backgroundColor: 'transparent',
+          border: `1px solid rgba(239, 68, 68, 0.5)`,
+          borderRadius: '8px',
+          color: styles.colors.red,
+          fontSize: '13px',
+          cursor: 'pointer',
+          marginTop: '16px',
+        }}
+      >
         ✕ Cancel & Reset Game
       </button>
     </div>

@@ -1,6 +1,14 @@
 import { styles, getRatingColor } from '../utils'
 
-export function AttendanceView({ players, attendance, presentPlayers, onToggleAttendance, onMarkAllPresent, onResetAttendance, onLateArrival }) {
+export function AttendanceView({
+  players,
+  attendance,
+  presentPlayers,
+  onToggleAttendance,
+  onMarkAllPresent,
+  onResetAttendance,
+  onLateArrival,
+}) {
   const sortedPlayers = [...players].sort((a, b) => b.overall - a.overall)
 
   return (
@@ -103,7 +111,13 @@ export function AttendanceView({ players, attendance, presentPlayers, onToggleAt
                   </span>
                 </div>
               </div>
-              <span style={{ fontSize: '12px', fontWeight: '600', color: isPresent ? styles.colors.green : styles.colors.muted }}>
+              <span
+                style={{
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  color: isPresent ? styles.colors.green : styles.colors.muted,
+                }}
+              >
                 {isPresent ? 'HERE' : 'OUT'}
               </span>
             </button>

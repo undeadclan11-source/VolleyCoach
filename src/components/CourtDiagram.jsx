@@ -108,10 +108,14 @@ export function CourtDiagram({ rotation, getPlayerById, onSlotClick, interactive
         ═══ NET ═══
       </div>
       <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-        {frontRow.map((i) => <Slot key={i} rotIndex={i} {...slotProps} />)}
+        {frontRow.map((i) => (
+          <Slot key={i} rotIndex={i} {...slotProps} />
+        ))}
       </div>
       <div style={{ display: 'flex', gap: '10px' }}>
-        {backRow.map((i) => <Slot key={i} rotIndex={i} {...slotProps} />)}
+        {backRow.map((i) => (
+          <Slot key={i} rotIndex={i} {...slotProps} />
+        ))}
       </div>
     </div>
   )

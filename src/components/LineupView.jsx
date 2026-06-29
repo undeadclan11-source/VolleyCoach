@@ -1,7 +1,16 @@
 import { styles, getRatingColor } from '../utils'
 import { CourtDiagram } from './CourtDiagram'
 
-export function LineupView({ presentPlayers, benchPlayers, rotation, selectedBenchPlayer, onAutoSuggest, onCourtSlotClick, onBenchPlayerClick, getPlayerById }) {
+export function LineupView({
+  presentPlayers,
+  benchPlayers,
+  rotation,
+  selectedBenchPlayer,
+  onAutoSuggest,
+  onCourtSlotClick,
+  onBenchPlayerClick,
+  getPlayerById,
+}) {
   if (presentPlayers.length < 6) {
     return (
       <div
@@ -13,9 +22,7 @@ export function LineupView({ presentPlayers, benchPlayers, rotation, selectedBen
           textAlign: 'center',
         }}
       >
-        <span style={{ color: styles.colors.red, fontWeight: '600' }}>
-          ⚠️ Mark at least 6 players present first.
-        </span>
+        <span style={{ color: styles.colors.red, fontWeight: '600' }}>⚠️ Mark at least 6 players present first.</span>
       </div>
     )
   }

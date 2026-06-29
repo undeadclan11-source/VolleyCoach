@@ -2,7 +2,16 @@ import { styles, getRatingColor } from '../utils'
 
 const positionLabels = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6']
 
-export function SubPlanView({ benchPlayers, presentPlayers, rotation, subPlan, game2StartPlan, setGame2StartPlan, onAssignSubPlan, getPlayerById }) {
+export function SubPlanView({
+  benchPlayers,
+  presentPlayers,
+  rotation,
+  subPlan,
+  game2StartPlan,
+  setGame2StartPlan,
+  onAssignSubPlan,
+  getPlayerById,
+}) {
   const requiredGame2Starters = Object.values(subPlan)
   const optionalFillers = presentPlayers.filter((p) => !requiredGame2Starters.includes(p.id))
   const selectedOptional = game2StartPlan.filter((id) => !requiredGame2Starters.includes(id))
@@ -27,7 +36,16 @@ export function SubPlanView({ benchPlayers, presentPlayers, rotation, subPlan, g
 
   return (
     <div>
-      <div style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '1px', color: styles.colors.muted, textTransform: 'uppercase', marginBottom: '12px' }}>
+      <div
+        style={{
+          fontSize: '11px',
+          fontWeight: 800,
+          letterSpacing: '1px',
+          color: styles.colors.muted,
+          textTransform: 'uppercase',
+          marginBottom: '12px',
+        }}
+      >
         GAME 1 · SUB AT 13 POINTS
       </div>
 
@@ -102,7 +120,16 @@ export function SubPlanView({ benchPlayers, presentPlayers, rotation, subPlan, g
 
       <div style={{ height: '1px', background: styles.colors.border, margin: '20px 0' }} />
 
-      <div style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '1px', color: styles.colors.muted, textTransform: 'uppercase', marginBottom: '12px' }}>
+      <div
+        style={{
+          fontSize: '11px',
+          fontWeight: 800,
+          letterSpacing: '1px',
+          color: styles.colors.muted,
+          textTransform: 'uppercase',
+          marginBottom: '12px',
+        }}
+      >
         GAME 2 · STARTING LINEUP
       </div>
 
@@ -201,7 +228,13 @@ export function SubPlanView({ benchPlayers, presentPlayers, rotation, subPlan, g
         })}
       </div>
 
-      <div style={{ fontSize: '13px', color: totalFilled === 6 ? styles.colors.green : styles.colors.muted, marginBottom: '12px' }}>
+      <div
+        style={{
+          fontSize: '13px',
+          color: totalFilled === 6 ? styles.colors.green : styles.colors.muted,
+          marginBottom: '12px',
+        }}
+      >
         {totalFilled === 6 ? '✓ Game 2 lineup is set' : `${totalFilled} of 6 spots filled`}
       </div>
 
