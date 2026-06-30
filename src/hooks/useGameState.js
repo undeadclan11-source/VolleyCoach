@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useLocalStorage } from './useLocalStorage'
+import { getSetTargetScore, getSetWinner } from '../utils/scoring'
 
 export function useGameState(players) {
   const [settings, setSettings] = useLocalStorage('vb_settings', { thirdSetRequiresSubs: false })
@@ -25,14 +26,20 @@ export function useGameState(players) {
 
   const subAlertThreshold = currentGame === 3 ? 7 : 13
   const subsRequiredThisGame = currentGame !== 3 || settings.thirdSetRequiresSubs
+  const fallbackSubPlan = benchPlayers.slice(0, rotation.length).reduce((plan, player, index) => {
+    if (rotation[index]) plan[index] = player.id
+    return plan
+  }, {})
+  const plannedSubPlan = Object.keys(subPlan).length > 0 ? subPlan : fallbackSubPlan
+  const hasPendingSubs = Object.keys(plannedSubPlan).some((key) => !subsExecuted[key])
   const shouldShowSubAlert =
     subsRequiredThisGame &&
     (score.us >= subAlertThreshold || score.them >= subAlertThreshold) &&
-    Object.keys(subPlan).some((key) => !subsExecuted[key]) &&
+    hasPendingSubs &&
     !alertDismissed
 
-  const winningScore = currentGame === 3 ? 15 : 25
-  const gameWonBy = score.us >= winningScore ? 'us' : score.them >= winningScore ? 'them' : null
+  const winningScore = getSetTargetScore(currentGame)
+  const gameWonBy = getSetWinner(score, currentGame)
 
   // Attendance
   const toggleAttendance = (id) => setAttendance((prev) => ({ ...prev, [id]: !prev[id] }))
@@ -183,6 +190,21 @@ export function useGameState(players) {
     }
   }
 
+  const endLoggedGame = () => {
+    setScore({ us: 0, them: 0 })
+    setRotation([null, null, null, null, null, null])
+    setSubPlan({})
+    setCurrentGame(1)
+    setGame1Bench([])
+    setGame2Bench([])
+    setSubsExecuted({})
+    setAlertDismissed(false)
+    setSelectedBenchPlayer(null)
+    setGame2StartPlan([])
+    setEmergencySubOut(null)
+    setEmergencySubIn(null)
+  }
+
   return {
     // Settings
     settings,
@@ -201,6 +223,7 @@ export function useGameState(players) {
     setRotation,
     subPlan,
     setSubPlan,
+    plannedSubPlan,
     score,
     currentGame,
     subsExecuted,
@@ -227,5 +250,6 @@ export function useGameState(players) {
     makeEmergencySub,
     startNextGame,
     resetGame,
+    endLoggedGame,
   }
 }
