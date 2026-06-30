@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { styles, getRatingColor } from '../utils'
+import { getSetTargetScore } from '../utils/scoring'
 import { CourtDiagram } from './CourtDiagram'
 import { ScoreColumn } from './ScoreColumn'
 
@@ -11,6 +12,7 @@ export function InGameTab({
   benchPlayers,
   subPlan,
   setSubPlan,
+  plannedSubPlan,
   subsExecuted,
   alertDismissed,
   shouldShowSubAlert,
@@ -30,14 +32,17 @@ export function InGameTab({
   onResetGame,
   onLogWin,
   onLogLoss,
+  record,
   getPlayerById,
   isLineupComplete,
 }) {
-  const winningScore = currentGame === 3 ? 15 : 25
+  const winningScore = getSetTargetScore(currentGame)
 
   const [selectedCourtIdx, setSelectedCourtIdx] = useState(null)
   const [selectedBenchId, setSelectedBenchId] = useState(null)
   const [subPlanNote, setSubPlanNote] = useState(null)
+  const [loggedResult, setLoggedResult] = useState(null)
+  const hasPendingSubs = Object.keys(plannedSubPlan).some((key) => !subsExecuted[key])
 
   const handleCourtSlotTap = (index) => {
     const playerId = rotation[index]
@@ -196,40 +201,81 @@ export function InGameTab({
         </div>
       )}
 
+      {!gameWonBy && (score.us >= winningScore || score.them >= winningScore) && (
+        <div
+          style={{
+            backgroundColor: 'rgba(251, 191, 36, 0.12)',
+            border: `1px solid ${styles.colors.yellow}`,
+            borderRadius: '8px',
+            padding: '10px',
+            textAlign: 'center',
+            marginBottom: '16px',
+            color: styles.colors.yellow,
+            fontSize: '13px',
+            fontWeight: 700,
+          }}
+        >
+          Win by 2 - keep scoring until one team leads by two.
+        </div>
+      )}
+
       <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
         <button
-          onClick={onLogWin}
+          onClick={() => {
+            onLogWin()
+            setLoggedResult('win')
+          }}
+          disabled={loggedResult !== null}
           style={{
             flex: 1,
             padding: '12px',
             borderRadius: '10px',
             border: '1px solid #22C55E44',
-            background: '#22C55E22',
-            color: '#22C55E',
+            background: loggedResult ? styles.colors.surface : '#22C55E22',
+            color: loggedResult ? styles.colors.muted : '#22C55E',
             fontWeight: 800,
             fontSize: '14px',
-            cursor: 'pointer',
+            cursor: loggedResult ? 'not-allowed' : 'pointer',
           }}
         >
           ✓ Log Win
         </button>
         <button
-          onClick={onLogLoss}
+          onClick={() => {
+            onLogLoss()
+            setLoggedResult('loss')
+          }}
+          disabled={loggedResult !== null}
           style={{
             flex: 1,
             padding: '12px',
             borderRadius: '10px',
             border: '1px solid #EF444444',
-            background: '#EF444422',
-            color: '#EF4444',
+            background: loggedResult ? styles.colors.surface : '#EF444422',
+            color: loggedResult ? styles.colors.muted : '#EF4444',
             fontWeight: 800,
             fontSize: '14px',
-            cursor: 'pointer',
+            cursor: loggedResult ? 'not-allowed' : 'pointer',
           }}
         >
           ✗ Log Loss
         </button>
       </div>
+
+      {loggedResult && (
+        <div
+          style={{
+            fontSize: '13px',
+            color: loggedResult === 'win' ? styles.colors.green : styles.colors.red,
+            textAlign: 'center',
+            fontWeight: 700,
+            marginTop: '-8px',
+            marginBottom: '16px',
+          }}
+        >
+          {loggedResult === 'win' ? 'Win logged.' : 'Loss logged.'} Season record: {record.wins}W - {record.losses}L
+        </div>
+      )}
 
       {shouldShowSubAlert && (
         <div
@@ -246,7 +292,7 @@ export function InGameTab({
           <div style={{ fontWeight: '700', color: styles.colors.yellow, marginBottom: '8px' }}>
             ⚠️ {subAlertThreshold}-POINT MARK — {currentGame === 3 ? 'GAME 3 ' : ''}SUB TIME
           </div>
-          {Object.entries(subPlan).map(([rotIndex, benchPlayerId]) => {
+          {Object.entries(plannedSubPlan).map(([rotIndex, benchPlayerId]) => {
             if (subsExecuted[rotIndex]) return null
             const incoming = getPlayerById(benchPlayerId)
             const outgoing = getPlayerById(rotation[rotIndex])
@@ -323,7 +369,7 @@ export function InGameTab({
         </div>
       )}
 
-      {alertDismissed && Object.keys(subPlan).some((key) => !subsExecuted[key]) && (
+      {alertDismissed && hasPendingSubs && (
         <button
           onClick={onReshowAlert}
           style={{
