@@ -10,6 +10,7 @@ export function useGameState(players) {
   const [subPlan, setSubPlan] = useState({})
   const [score, setScore] = useState({ us: 0, them: 0 })
   const [currentGame, setCurrentGame] = useState(1)
+  const [gameResults, setGameResults] = useState([])
   const [, setGame1Bench] = useState([])
   const [game2Bench, setGame2Bench] = useState([])
   const [subsExecuted, setSubsExecuted] = useState({})
@@ -148,10 +149,7 @@ export function useGameState(players) {
   }
 
   // Game transitions
-  const startNextGame = () => {
-    const nextGame = currentGame + 1
-    if (nextGame > 3) return
-
+  const prepareNextGame = (nextGame) => {
     if (currentGame === 1) setGame1Bench(benchPlayers.map((p) => p.id))
     else if (currentGame === 2) setGame2Bench(benchPlayers.map((p) => p.id))
 
@@ -177,32 +175,45 @@ export function useGameState(players) {
     setGame2StartPlan([])
   }
 
+  const startNextGame = () => {
+    const nextGame = currentGame + 1
+    if (nextGame > 3) return
+
+    prepareNextGame(nextGame)
+  }
+
+  const logCurrentGameResult = (result) => {
+    setGameResults((prev) => [
+      ...prev.filter((entry) => entry.game !== currentGame),
+      { game: currentGame, result, score: { ...score } },
+    ])
+
+    if (currentGame < 3) {
+      prepareNextGame(currentGame + 1)
+      return
+    }
+
+    setScore({ us: 0, them: 0 })
+    setSubPlan({})
+    setSubsExecuted({})
+    setAlertDismissed(false)
+    setGame2StartPlan([])
+    setEmergencySubOut(null)
+    setEmergencySubIn(null)
+  }
+
   const resetGame = () => {
     if (window.confirm('Reset everything? This clears the score, rotation, and sub plan. Roster stays.')) {
       setScore({ us: 0, them: 0 })
       setRotation([null, null, null, null, null, null])
       setSubPlan({})
       setCurrentGame(1)
+      setGameResults([])
       setGame1Bench([])
       setGame2Bench([])
       setSubsExecuted({})
       setAlertDismissed(false)
     }
-  }
-
-  const endLoggedGame = () => {
-    setScore({ us: 0, them: 0 })
-    setRotation([null, null, null, null, null, null])
-    setSubPlan({})
-    setCurrentGame(1)
-    setGame1Bench([])
-    setGame2Bench([])
-    setSubsExecuted({})
-    setAlertDismissed(false)
-    setSelectedBenchPlayer(null)
-    setGame2StartPlan([])
-    setEmergencySubOut(null)
-    setEmergencySubIn(null)
   }
 
   return {
@@ -226,6 +237,7 @@ export function useGameState(players) {
     plannedSubPlan,
     score,
     currentGame,
+    gameResults,
     subsExecuted,
     alertDismissed,
     setAlertDismissed,
@@ -249,7 +261,7 @@ export function useGameState(players) {
     executeSub,
     makeEmergencySub,
     startNextGame,
+    logCurrentGameResult,
     resetGame,
-    endLoggedGame,
   }
 }

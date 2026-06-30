@@ -22,11 +22,7 @@ export default function App() {
   useWakeLock(activeTab)
 
   const handleLogResult = (result) => {
-    if (result === 'win') roster.logWin()
-    else roster.logLoss()
-
-    game.endLoggedGame()
-    setActiveTab('roster')
+    game.logCurrentGameResult(result)
   }
 
   const navTabs = [
@@ -217,6 +213,7 @@ export default function App() {
             key={game.currentGame}
             score={game.score}
             currentGame={game.currentGame}
+            gameResults={game.gameResults}
             rotation={game.rotation}
             setRotation={game.setRotation}
             benchPlayers={game.benchPlayers}
@@ -242,7 +239,6 @@ export default function App() {
             onResetGame={game.resetGame}
             onLogWin={() => handleLogResult('win')}
             onLogLoss={() => handleLogResult('loss')}
-            record={roster.record}
             getPlayerById={roster.getPlayerById}
             isLineupComplete={game.isLineupComplete}
           />

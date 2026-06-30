@@ -7,6 +7,7 @@ import { ScoreColumn } from './ScoreColumn'
 export function InGameTab({
   score,
   currentGame,
+  gameResults,
   rotation,
   setRotation,
   benchPlayers,
@@ -32,7 +33,6 @@ export function InGameTab({
   onResetGame,
   onLogWin,
   onLogLoss,
-  record,
   getPlayerById,
   isLineupComplete,
 }) {
@@ -178,6 +178,37 @@ export function InGameTab({
         GAME {currentGame} OF 3 · RALLY SCORING · {winningScore} PTS
       </div>
 
+      {gameResults.length > 0 && (
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: '8px',
+            marginBottom: '16px',
+          }}
+        >
+          {[...gameResults]
+            .sort((a, b) => a.game - b.game)
+            .map((entry) => (
+              <span
+                key={entry.game}
+                style={{
+                  padding: '6px 10px',
+                  borderRadius: '999px',
+                  border: `1px solid ${entry.result === 'win' ? styles.colors.green : styles.colors.red}`,
+                  color: entry.result === 'win' ? styles.colors.green : styles.colors.red,
+                  backgroundColor: entry.result === 'win' ? 'rgba(34, 197, 94, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+                  fontSize: '12px',
+                  fontWeight: 800,
+                }}
+              >
+                G{entry.game} {entry.result === 'win' ? 'W' : 'L'} {entry.score.us}-{entry.score.them}
+              </span>
+            ))}
+        </div>
+      )}
+
       {gameWonBy && (
         <div
           style={{
@@ -273,7 +304,7 @@ export function InGameTab({
             marginBottom: '16px',
           }}
         >
-          {loggedResult === 'win' ? 'Win logged.' : 'Loss logged.'} Season record: {record.wins}W - {record.losses}L
+          {loggedResult === 'win' ? 'Win logged.' : 'Loss logged.'}
         </div>
       )}
 
